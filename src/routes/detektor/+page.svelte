@@ -2,6 +2,14 @@
   import DetectorForm from '$lib/components/DetectorForm.svelte';
 </script>
 
+<svelte:head>
+  <title>Detektor Akun Buzzer — Rekap Buzzer</title>
+  <meta name="description" content="Detektor akun buzzer: masukkan data profil publik dan contoh komentar, dapat skor 0–100 dari lima sinyal perilaku plus laporan yang bisa disalin." />
+  <meta property="og:title" content="Detektor Akun Buzzer — Rekap Buzzer" />
+  <meta property="og:description" content="Skor 0–100 dari lima sinyal perilaku: umur akun, rasio following, ritme posting, pengulangan komentar, dan kata promosi." />
+  <meta property="og:type" content="website" />
+</svelte:head>
+
 <h1 class="font-display font-bold text-4xl md:text-5xl">Detektor akun buzzer</h1>
 <p class="mt-3 max-w-2xl text-[#e9d5ff]/85">Masukkan data profil publik dan contoh komentarnya. Skor 0–100 dihitung dari lima sinyal perilaku. Hasilnya bisa kamu salin sebagai laporan.</p>
 <div class="mt-8"><DetectorForm /></div>

@@ -3,17 +3,24 @@
 
   let username = $state('');
   let platform = $state<Platform>('X');
-  let accountAgeDays = $state(30);
-  let followers = $state(500);
-  let following = $state(1000);
-  let postsPerDay = $state(5);
-  let repeatPercent = $state(50);
+  let accountAgeDays = $state(0);
+  let followers = $state(0);
+  let following = $state(0);
+  let postsPerDay = $state(0);
+  let repeatPercent = $state(0);
   let commentText = $state('');
   let result = $state<DetectorResult | null>(null);
   let copied = $state(false);
+  let usernameError = $state('');
 
   function run() {
-    const input: DetectorInput = { username, platform, accountAgeDays, followers, following, postsPerDay, repeatPercent, commentText };
+    if (!username.trim()) {
+      usernameError = 'Username wajib diisi.';
+      result = null;
+      return;
+    }
+    usernameError = '';
+    const input: DetectorInput = { username: username.trim(), platform, accountAgeDays, followers, following, postsPerDay, repeatPercent, commentText };
     result = analyze(input);
     copied = false;
   }
@@ -24,17 +31,20 @@
     try { await navigator.clipboard.writeText(text); copied = true; } catch { copied = false; }
   }
 
-  function reset() { username = ''; commentText = ''; result = null; }
+  function reset() { username = ''; usernameError = ''; accountAgeDays = 0; followers = 0; following = 0; postsPerDay = 0; repeatPercent = 0; commentText = ''; result = null; copied = false; }
 </script>
 
 <div class="grid lg:grid-cols-2 gap-8 items-start">
-  <form class="bg-[#24102e] rounded-3xl p-6 grid gap-4 border border-white/10" onsubmit={(e) => { e.preventDefault(); run(); }}>
+  <form novalidate class="bg-[#24102e] rounded-3xl p-6 grid gap-4 border border-white/10" onsubmit={(e) => { e.preventDefault(); run(); }}>
     <h2 class="font-display font-bold text-2xl">Cek akun sekarang</h2>
     <p class="text-sm text-[#e9d5ff]/80">Isi data dari profil publik akun yang mau dicek. Semua dihitung di browser, tidak ada data yang dikirim ke server.</p>
 
     <label class="grid gap-1 text-sm font-medium">Username
-      <input class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" placeholder="contoh: akun123" bind:value={username} />
+      <input required aria-required="true" aria-invalid={usernameError ? 'true' : undefined} aria-describedby={usernameError ? 'username-error' : undefined} class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" placeholder="contoh: akun123" bind:value={username} oninput={() => { if (usernameError) usernameError = ''; }} />
     </label>
+    {#if usernameError}
+      <p id="username-error" role="alert" class="text-sm text-red-300">{usernameError}</p>
+    {/if}
 
     <label class="grid gap-1 text-sm font-medium">Platform
       <select class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={platform}>
@@ -44,21 +54,21 @@
 
     <div class="grid grid-cols-2 gap-4">
       <label class="grid gap-1 text-sm font-medium">Umur akun (hari)
-        <input type="number" min="0" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={accountAgeDays} />
+        <input type="number" min="0" required placeholder="cth: 30" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={accountAgeDays} />
       </label>
       <label class="grid gap-1 text-sm font-medium">Post per hari
-        <input type="number" min="0" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={postsPerDay} />
+        <input type="number" min="0" required placeholder="cth: 5" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={postsPerDay} />
       </label>
       <label class="grid gap-1 text-sm font-medium">Followers
-        <input type="number" min="0" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={followers} />
+        <input type="number" min="0" required placeholder="cth: 500" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={followers} />
       </label>
       <label class="grid gap-1 text-sm font-medium">Following
-        <input type="number" min="0" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={following} />
+        <input type="number" min="0" required placeholder="cth: 1000" class="rounded-xl bg-[#17081f] border border-white/15 px-4 py-3 text-white" bind:value={following} />
       </label>
     </div>
 
     <label class="grid gap-2 text-sm font-medium">Persentase komentar/posting berulang: <strong>{repeatPercent}%</strong>
-      <input type="range" min="0" max="100" class="accent-[#ff4fa3]" bind:value={repeatPercent} />
+      <input type="range" min="0" max="100" required class="accent-[#ff4fa3]" bind:value={repeatPercent} />
     </label>
 
     <label class="grid gap-1 text-sm font-medium">Tempel contoh komentar (opsional)

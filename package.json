@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3",
@@ -14,8 +16,10 @@
     "@sveltejs/vite-plugin-svelte": "^5",
     "@tailwindcss/vite": "^4",
     "svelte": "^5",
+    "svelte-check": "^4.7.8",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "^6"
+    "vite": "^6",
+    "vitest": "^4.1.12"
   }
 }

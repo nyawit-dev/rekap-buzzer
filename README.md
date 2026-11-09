@@ -1,6 +1,6 @@
 # Rekap Buzzer
 
-Alat edukasi deteksi akun buzzer sosmed dari sinyal perilaku publiknya — oleh [nyawit.dev](https://nyawit.dev).
+Alat edukasi deteksi akun buzzer sosmed dari sinyal perilaku publiknya — oleh [nyawit-dev.github.io](https://nyawit-dev.github.io/).
 
 Cek umur akun, rasio following/followers, ritme posting, dan komentar berulang, lalu dapat skor buzzer 0–100 lengkap dengan rincian tiap sinyal. Semua dihitung di browser, tanpa login dan tanpa backend.
 

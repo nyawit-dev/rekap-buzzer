@@ -6,6 +6,9 @@
   --plum-2: #24102e;
   --plum-3: #2f153d;
   --pink: #ff4fa3;
+  --pink-dark: #be185d;
+  --pink-darker: #9d174d;
+  --purple-dark: #7e22ce;
   --pink-soft: #ff8ac2;
   --violet: #a855f7;
   --lavender: #e9d5ff;
@@ -20,4 +23,4 @@ body {
   overflow-x: hidden;
 }
 .font-display { font-family: "Space Grotesk", Inter, sans-serif; }
-::selection { background: var(--pink); color: white; }
+::selection { background: var(--pink-dark); color: white; }
